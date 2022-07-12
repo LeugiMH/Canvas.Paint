@@ -26,7 +26,8 @@ function updateGameArea() {
     //myGameArea.clear();
     //myGameObject.x += 1;
     //myGameObject.update();
-    
+
+
     if(mouseDown == true){
         myGameArea.canvas.addEventListener("mousemove", desenhar);
     }
@@ -41,7 +42,8 @@ addEventListener("mouseup", function(){mouseDown = false;},false);
 function desenhar (move){
     var borracha = document.getElementById("borracha");
     var cor = document.getElementById("cor").value;
-    var tamanho = document.querySelector("input[name='tamanho']:checked").value;
+    //var tamanho = document.querySelector("input[name='tamanho']:checked").value;
+    var tamanho = document.getElementById("tamanho").value;
     
     var objDesenho = {
         x: move.offsetX,
@@ -51,7 +53,7 @@ function desenhar (move){
         borracha: borracha.checked
     }
     socket.emit('desenhar', objDesenho);
-    
+
     if(borracha.checked)
     {
         brush = new desenho(move.offsetX, move.offsetY, cor, tamanho)
@@ -62,8 +64,37 @@ function desenhar (move){
         brush = new desenho(move.offsetX, move.offsetY, cor, tamanho);
         brush.update();
     }
-
+    
 }
+
+socket.on('desenhos antigos', function(desenhos) {
+    for(obj of desenhos)
+    {
+        if(obj.borracha)
+        {
+            brush = new desenho(obj.x, obj.y, obj.cor, obj.tamanho);
+            brush.apagar();
+        }
+        else
+        {
+            brush = new desenho(obj.x, obj.y, obj.cor, obj.tamanho);
+            brush.update();
+        }
+    }
+});
+
+socket.on('desenho', function(obj) {
+    if(obj.borracha)
+    {
+        brush = new desenho(obj.x, obj.y, obj.cor, obj.tamanho);
+        brush.apagar();
+    }
+    else
+    {
+        brush = new desenho(obj.x, obj.y, obj.cor, obj.tamanho);
+        brush.update();
+    }
+});
 
 function desenho(x, y, color, size) 
 {
@@ -75,7 +106,7 @@ function desenho(x, y, color, size)
     {
         ctx = myGameArea.context;
         ctx.fillStyle = this.color;
-        ctx.fillRect(this.x, this.y, this.size, this.size)
+        ctx.fillRect(this.x, this.y, this.size, this.size);
     },
     this.apagar = function(){
         ctx = myGameArea.context;

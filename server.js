@@ -21,9 +21,11 @@ app.use('/', (req, res) => {
 io.on('connection', (socket) => {
     console.log('Usuário conectado');
 
+    socket.emit('desenhos antigos', desenhos);
+
     socket.on('desenhar', (desenho) => {
         desenhos.push(desenho);
-        
+        io.emit('desenho', desenho);
     });
 
     socket.on('disconnect', () => {
