@@ -1,12 +1,11 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="pt-br">
     <head>
         <meta charset="UTF-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>Aprendendo Canvas</title>
         <link rel="stylesheet" type="text/css" href="index.css">
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.5.0/socket.io.js" integrity="sha512-ttqbKrGZiTtSLguBZ2xNvZrhUv02IO/TRq5U6TG5TK90wbaXWup5kIJ1A1tLzjOk5Mea/G4seVNrU+lwTLfAzA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 
         </head>
     <body onload="startGame()">
@@ -25,9 +24,7 @@
                 <input type="radio" name="tamanho" value="50" id="tamanho3">
             </div>
         </center>
-    <script type="text/javascript">
-        var socket = io('http://localhost:3000/');
-    </script>
-    <script type="text/javascript" src="index.js"></script>-->
+        <script src="/socket.io/socket.io.js"></script>
+        <script type="text/javascript" src="index.js"></script>
     </body>
 </html>

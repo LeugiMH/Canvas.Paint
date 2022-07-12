@@ -1,3 +1,5 @@
+var socket = io();
+
 var mouseDown = false;
 var brush;
 
@@ -31,6 +33,7 @@ function updateGameArea() {
     else{
         myGameArea.canvas.removeEventListener("mousemove", desenhar);
     }
+    
 }
 
 addEventListener("mousedown", function(){mouseDown = true;},false);
@@ -39,6 +42,15 @@ function desenhar (move){
     var borracha = document.getElementById("borracha");
     var cor = document.getElementById("cor").value;
     var tamanho = document.querySelector("input[name='tamanho']:checked").value;
+    
+    var objDesenho = {
+        x: move.offsetX,
+        y: move.offsetY,
+        cor: cor,
+        tamanho: tamanho,
+        borracha: borracha.checked
+    }
+    socket.emit('desenhar', objDesenho);
     
     if(borracha.checked)
     {
