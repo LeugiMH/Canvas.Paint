@@ -27,6 +27,7 @@ function updateGameArea() {
     //myGameObject.x += 1;
     //myGameObject.update();
 
+    myGameArea.canvas.addEventListener("touchmove", desenhar);
 
     if(mouseDown == true){
         myGameArea.canvas.addEventListener("mousemove", desenhar);
@@ -40,18 +41,34 @@ function updateGameArea() {
 addEventListener("mousedown", function(){mouseDown = true;},false);
 addEventListener("mouseup", function(){mouseDown = false;},false);
 function desenhar (move){
+    
     var borracha = document.getElementById("borracha");
     var cor = document.getElementById("cor").value;
     //var tamanho = document.querySelector("input[name='tamanho']:checked").value;
     var tamanho = document.getElementById("tamanho").value;
     
-    var objDesenho = {
-        x: move.offsetX,
-        y: move.offsetY,
-        cor: cor,
-        tamanho: tamanho,
-        borracha: borracha.checked
+    if(move.type == "touchmove")
+    {
+        console.log(move);
+        var objDesenho = {
+            x: move.touches[0].clientX,
+            y: move.touches[0].clientY,
+            cor: cor,
+            tamanho: tamanho,
+            borracha: borracha.checked
+        }
     }
+    else{
+        var objDesenho = {
+            x: move.offsetX,
+            y: move.offsetY,
+            cor: cor,
+            tamanho: tamanho,
+            borracha: borracha.checked
+        }
+    }
+
+    console.log(objDesenho);
     socket.emit('desenhar', objDesenho);
 
     if(borracha.checked)
