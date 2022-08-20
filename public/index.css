@@ -1,10 +1,12 @@
 *{
     user-select: none;
+    box-sizing: border-box;
 }
-body{
-    background: white;
+#body{
+    background: white !important;
     justify-content: center;
 }
+
 canvas{
     background-color: white;
     border: 5px solid salmon;

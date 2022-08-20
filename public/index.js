@@ -3,10 +3,30 @@ var socket = io();
 var mouseDown = false;
 var brush;
 
+//Chamando tela cheia
+function fullScreen()
+{
+    
+    var corpo = document.getElementById("body");
+
+    //chamando tela cheia
+    corpo.requestFullscreen()
+
+    .then(function() {
+		// element has entered fullscreen mode successfully
+
+	})
+	.catch(function(error) {
+		// element could not enter fullscreen mode
+	
+    });
+    
+}
+
 function startGame() {
     myGameArea.start();
 }
-
+    //Definindo a gamearea 
 var myGameArea = {
     canvas: document.getElementById("canvas"),
     start: function()
@@ -14,14 +34,14 @@ var myGameArea = {
         this.canvas.width = 1280;
         this.canvas.height = 720;
         this.context = this.canvas.getContext("2d");
-        this.interval = setInterval(updateGameArea, 10);
+        this.interval = setInterval(updateGameArea, 100);
     },
     clear: function()
     {
         this.context.clearRect(0,0,this.canvas.width,this.canvas.height);
     }
 }
-
+    //Atualizando a gamearea
 function updateGameArea() {
     //myGameArea.clear();
     //myGameObject.x += 1;
@@ -29,24 +49,29 @@ function updateGameArea() {
 
     myGameArea.canvas.addEventListener("touchmove", desenhar);
 
+    //Definindo chamando a função 'desenhar' baseado na movimentação do mouse quando o mouse está pressionado
     if(mouseDown == true){
         myGameArea.canvas.addEventListener("mousemove", desenhar);
     }
+
+    //Retirando a chamada da função desenhar
     else{
         myGameArea.canvas.removeEventListener("mousemove", desenhar);
     }
     
 }
 
+    //Definindo o mouse como pressionado ou não 
 addEventListener("mousedown", function(){mouseDown = true;},false);
 addEventListener("mouseup", function(){mouseDown = false;},false);
 function desenhar (move){
     
+    //definindo borracha, cor e tamanho.
     var borracha = document.getElementById("borracha");
     var cor = document.getElementById("cor").value;
-    //var tamanho = document.querySelector("input[name='tamanho']:checked").value;
     var tamanho = document.getElementById("tamanho").value;
-    
+
+    //Decidindo se é touch ou mouse
     if(move.type == "touchmove")
     {
         console.log(move);
